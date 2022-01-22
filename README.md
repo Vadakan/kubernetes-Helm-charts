@@ -116,4 +116,270 @@ public hub, everyone can create their own charts and publish it. But as a user w
 need to first check the company who created the chart and investigate on our own before using the chart.
 
 
+# creating monitoring stack using helm chart (promotheus to minotor the nodes of cluster and grafana-UI for promotheus)
+
+# Our needs to set up Monitoring system :
+
+1) Prometheus - to monitor the nodes
+2) Grafana  - UI to see what is happening in Pomotheus
+3) Alert manager - alert manager system for cluster monitoring system
+
+
+**Step 1: # search for the word Monitoring to see what are results its showing. There are no monitoring stack with promotheus so we will skip to step 2**
+
+
+![image](https://user-images.githubusercontent.com/80065996/150628390-ceb674cc-bff2-420b-9d41-8c2fd2bc4e33.png)
+
+
+**step 2: # search for the word Prometheus to see result list. We need not only need prometheus. We need grafana as well. so we are not planning to install
+promotheus alone separately. We need to install in combination**
+
+# We selected Kube-Promotheus-stack for the purpose.
+
+
+![image](https://user-images.githubusercontent.com/80065996/150628742-97ad6dc4-9858-4b3f-8b45-26994187149c.png)
+
+
+# step 3 :In the website, first thing we need to add the repo.
+
+
+![image](https://user-images.githubusercontent.com/80065996/150629297-e0e88c56-65e0-4476-86a7-0b28d4f987d7.png)
+
+
+Slight change in the command for creating the repo. Repo name we can give anything we want,
+
+
+![image](https://user-images.githubusercontent.com/80065996/150629315-58c233d9-d89c-41f8-a21c-828bbc23b7a6.png)
+
+
+**We can check the repos created by using below command**
+
+
+![image](https://user-images.githubusercontent.com/80065996/150629365-a3e00205-64d5-4240-886b-8ecba325b48e.png)
+
+
+**note : **
+**1) "Helm repo list" -- to see the repos used to create the helm charts**
+**2) "Helm list" -- to see the list of helm charts installed in the cluster**
+
+If we take the link of repo and put it in browser, you can see the details about that helm chart
+
+
+![image](https://user-images.githubusercontent.com/80065996/150630132-e79a949b-c346-4154-9350-e27a5da910cd.png)
+
+
+**Step 4: Do the repo update. It is good practise the update the repo before installing helm chart**
+
+
+![image](https://user-images.githubusercontent.com/80065996/150630175-eb23acee-f130-4881-bdd2-39ca40610401.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/150630162-da5af50d-3cff-44c9-b0f8-8fdce129201f.png)
+
+
+# This command updated all the repos available in the kubernetes cluster
+
+
+![image](https://user-images.githubusercontent.com/80065996/150630202-d288594c-ff55-4a9f-a978-1e4feb613c14.png)
+
+
+# step 5 : Repo is set up successfully. Now we have to install helm chart
+
+
+![image](https://user-images.githubusercontent.com/80065996/150630350-9dfd947b-1453-4ecb-a2a3-d83c892e5609.png)
+
+
+# We need 3 parameters.
+# Release_name => what do we need to call this release.
+# Repo-name := repo we used for this stack.
+# Stackname := stack name from artifcat hub
+
+for us :=
+**helm install monitoring prom-repo/kube-prometheus-stack**
+
+# Monitoring - we ca give any name we want.name of the release we are going to perform. We are going to create a monitoring system. so it is called as 'Monitoring'. 
+# prom-repo - name of the repo
+# kube-promotheus-stack - name of the helm chart from artifcat hub
+
+
+![image](https://user-images.githubusercontent.com/80065996/150630504-171589e5-b693-4f1b-b262-ba8260f384b5.png)
+
+
+# you can see now promotheus stack is installed sucessfully, 
+
+
+![image](https://user-images.githubusercontent.com/80065996/150631020-76fea47f-2222-4bab-8d28-bc0727a7545f.png)
+
+
+# you can notice now promotheus is installed in 'default' namespace as shown below,
+
+
+![image](https://user-images.githubusercontent.com/80065996/150631119-961e82b2-e328-4bd7-99ec-1156f0dbf892.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/150631171-1e26f4a7-fdbe-4d2c-baec-5a5b39edad8d.png)
+
+
+# the release name 'monitoring' used while installing the helm chart will be created as labels in the pod created for the helm chart
+# below command uses label "release=monitoring" to get the pods assciated with it
+
+
+![image](https://user-images.githubusercontent.com/80065996/150631189-87f469cf-aa1d-4ec6-8424-0340271af335.png)
+
+
+# Now we installed monitoring system with alert manager using prometheus and grafana. Services created for the same seen below,
+
+
+![image](https://user-images.githubusercontent.com/80065996/150631340-68430cf7-ea30-46fc-9b9f-4bfc13f0951e.png)
+
+
+As we know, the service 'monitoring grafana' as shown above is the frontend. This is created as 'clusterIP' so we cannot access from browser outside.
+
+
+# so we are planning to edit that service in a dirty way. Please dont ever use 'kubectl edit' in your project. just for practising we are using this command
+# it will pop the YAML file for the service. we can edit it now
+
+
+![image](https://user-images.githubusercontent.com/80065996/150631676-387a0c63-7841-4168-b96d-01c35ad382f5.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/150631711-0d97ebb4-c7a3-475b-810c-429c50d76e4b.png)
+
+
+# we can change the 'ClusterIP' to 'NodePort' now and also port number as '300020'
+
+
+![image](https://user-images.githubusercontent.com/80065996/150631977-ba0d7e7a-cacd-4ccc-be40-2a2158be5221.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/150631989-38dd3c21-71c9-4879-b059-ed0991bcfebb.png)
+
+
+# note: if you do any mistake, the file will not get saved and it will throw error. the file open again automatically for edit. you can check the error
+# top of the file, correct the errors and save it
+# Now you can see YAML changed we have done applied automatically and 'ClusterIP' changed to 'NodePort'.
+
+
+![image](https://user-images.githubusercontent.com/80065996/150632196-c106c758-75ef-404e-9ca3-fe7978891949.png)
+
+
+# take minikube up and type it in browser, you can see grafana frontend
+
+
+![image](https://user-images.githubusercontent.com/80065996/150632258-3739b6e6-548b-4873-b325-67043d0b5f97.png)
+
+
+# Note: you cannot use username and password to login into grafana. Because we are not yet configured on this part. its just a skeleton we installed.
+
+
+![image](https://user-images.githubusercontent.com/80065996/150633023-110afe1f-e655-406b-8606-06564be15c88.png)
+
+
+
+# WORKING WITH HELM CHART VALUES. TILL NOW WE KNOW HOW TO CONFIGURE GRAFANA. WE SAW THE FRONTEND. IF YOU GIVE USERNAME AND PASSWORD IT WILL NOT WORK
+# BECAUSE WE DIDNT CONFIGURE IT NOW. FOR THAT WE HAVE TO WORK WITH CHART VALUES. 
+
+# helm show values repo-name/stackname - helm show values prom-repo/kube-prometheus-stack
+# it will show big list of displays as shown below in the screenshot. 
+# These displays are the properties of the chart we are installing. (we can even use the property name while using install command to set the value for property)
+
+
+![image](https://user-images.githubusercontent.com/80065996/150632729-f54cb28c-fb9e-440f-a61e-476720f9bb95.png)
+
+
+# due to massive amount of displays for this command, we can really read thru all the comments. so redirect the result commands into the file using command
+
+
+![image](https://user-images.githubusercontent.com/80065996/150633108-aa8dce7b-9706-4d32-a51f-0b006bf287da.png)
+
+
+# open the 'values.yaml' in any text editor.
+# search for the keyword 'password'. found password related details in 651 lines of the YAML file. Now we identify the propertyname. we can either 
+# alter the value of the property in the file itself or get the property name and use the command to alter it
+
+
+![image](https://user-images.githubusercontent.com/80065996/150633261-c91a51d0-c593-48bb-ab45-5cbf058b9859.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/150633436-88dcb284-8f08-4d81-89a5-77113faf5104.png)
+
+
+# Change the password (we got property name in previous step), so with that we are going to set password for grafana using below command
+
+
+![image](https://user-images.githubusercontent.com/80065996/150633561-be60cb5a-e886-4897-9eb1-1690eeb9e748.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/150633640-6acf33b0-2e96-4d1e-868e-dff9833726ba.png)
+
+
+# we could see we upgraded the helm chart now. (we changed the propery - updated the password). so it is showing 'revision-2' and status 'deployed' in the result
+# comments
+
+
+# Note: Once we upgraded, you can see by design 'grafana frontend' service is changed from nodePort to ClusterIP again(re-applied). we changed that
+# in previous step from ClusterIP to nodePort to test the grafana frontend service.
+
+
+![image](https://user-images.githubusercontent.com/80065996/150633831-561f3da0-1b2f-42cd-8c25-26dc983281c4.png)
+
+
+# again i followed the step of kube-edit command to chaned the nodeport and set the port as shown below:
+
+
+![image](https://user-images.githubusercontent.com/80065996/150633925-c73cfd72-153e-46ba-a67f-4b678773a975.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/150634004-3e5ca8b1-bdcf-4e3b-a1f1-06c4af0dd0b0.png)
+
+
+# now check the username and password in grafana
+
+
+![image](https://user-images.githubusercontent.com/80065996/150634029-9ba74fc7-b76f-4704-a49d-2d18d9aa5abc.png)
+
+
+# Note: the Big mistake while updating the properties of YAML file (admin password)
+# we should notice in YAML we can create parent and child fields. and if you want to alter the child value we have to refer the parent with dot operator(.) with\
+# child to change it. Here the exact problem happened. we altered the password parameter of the child but we didnt refer the parent under which child is present
+
+
+Parent name is 'grafana', child 'adminPassword' is present under the Parent 'grafana'.
+
+
+![image](https://user-images.githubusercontent.com/80065996/150634329-aaba5333-c087-4391-ab79-b123b64461d0.png)
+
+
+# this time using parent child replationship:
+
+
+![image](https://user-images.githubusercontent.com/80065996/150634411-7c674e75-105f-4ad2-8a44-2d3632e99384.png)
+
+
+# upgraded,
+
+
+![image](https://user-images.githubusercontent.com/80065996/150634500-6f6e0693-c10b-4b93-8141-c05b294a42b0.png)
+
+
+# modify ClusterIP of grafana to nodeport 
+
+
+![image](https://user-images.githubusercontent.com/80065996/150634567-0a325a0b-e97d-452b-b4e4-8086dce30f5c.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/150634602-f373b5f8-7672-4042-b067-295d6f60bb41.png)
+
+
+# now logged in successfully and it is asking us to set new password
+
+
+![image](https://user-images.githubusercontent.com/80065996/150634649-07b32d51-d194-4b62-b34f-a74ad5b3af66.png)
+
+
+# pod is getting terminated and restarted again for new changes. so it is clear that our changes are picked up. Last time pods were not getting restarted.
+(all will happen on a flash)
+
+
+![image](https://user-images.githubusercontent.com/80065996/150634747-296d9f04-206a-4170-93ba-454a4e884e04.png)
 
