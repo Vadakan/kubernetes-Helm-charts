@@ -383,3 +383,80 @@ Parent name is 'grafana', child 'adminPassword' is present under the Parent 'gra
 
 ![image](https://user-images.githubusercontent.com/80065996/150634747-296d9f04-206a-4170-93ba-454a4e884e04.png)
 
+
+# How to change Nodeport in our kube-prometheus helm chart without using 'kubectl edit' command ?
+# We used a command 'helm show values' which gave very big YAML file of the helm chart we installed in 'values1.yaml' file. in that file we have to 
+# go thorugh and identify parent field and corresponding field for setting NodePort. it is very hard to go through all the lines in the file.
+# use ctlf+F (search) option. if still no luck , check for github documentation created for the particualr chart which provided configuration details
+
+
+luckily for us grafana developer of the chart provided github documentation page: https://github.com/grafana/helm-charts/tree/main/charts/grafana
+
+
+below details provided in github page,
+
+
+![image](https://user-images.githubusercontent.com/80065996/150670521-f9d37109-5262-4eaf-b2c6-82e2a790b7c2.png)
+
+
+# since we identified the field for nodeport, we can pass via command shown in below image and do that. But the problem is command will become big if we want to 
+# change the configuration for many values.
+
+
+![image](https://user-images.githubusercontent.com/80065996/150670724-ee4b3ffa-50e2-43e0-83fa-8d4ef6de02ee.png)
+
+
+
+# so we can use Values1.Yaml file we have created and made the edit of configuration we want and there is an option to pass the 'values1.yaml' as an argument to 
+# 'helm upgrade' command to make the change
+
+
+# Changed the 'service' details like below under 'service' section:
+
+
+![image](https://user-images.githubusercontent.com/80065996/150670874-4ae6c8cd-edcb-4f7a-9e3a-fe6f76f3f441.png)
+
+
+# also change the admin password field,
+
+
+![image](https://user-images.githubusercontent.com/80065996/150670945-7df5a1c9-d5aa-4e3a-8ffd-8204a68bb897.png)
+
+
+# Save the file ,
+
+# now change the 'helm upgrade' command like shown in below image,
+
+
+![image](https://user-images.githubusercontent.com/80065996/150671016-ae292c49-7f41-4b4a-a1aa-88d1cffbaa6d.png)
+
+
+# Result: Grafana frontend will be changed from 'ClusterIP' to 'NodePort'.(having some space issue with minikube but in realtime it will change)
+
+
+![image](https://user-images.githubusercontent.com/80065996/150671787-63a3160a-3946-40bf-9687-d0541119bd93.png)
+
+
+
+# Remove all the contents from 'values1.yaml' and keep only 'service' part of 'grafana' and perform 'helm upgrade' command as shown above,
+
+
+![image](https://user-images.githubusercontent.com/80065996/150671729-74a7b00b-7c49-435d-b63d-77992b512b3b.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/150671747-5fea97e6-8b48-47cd-937e-02c3d4c885f8.png)
+
+
+# just changed the nodeport value and checked, kubernetes will take only the content given and change it and it will not affect the whole chart installed.
+
+
+# Danger of using Helm :
+
+# Eventhough Helm is wasy to use and can install any packages within a flash of a second using commands. it comes with its own problems.
+# we are not sure what is happening inside the chart which we downloaded from website. moreover if we install any chart on top of cluster we are using
+# and if we are planning to move the cluster from baremetal to cloud or any cloud to cloud we will not have YAML, we need to remember the chart we installd manually
+# also. installing charts from third party vendors are dangerous and it will change frequently and we have to upgrade it.
+
+
+
+
