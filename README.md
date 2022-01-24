@@ -537,3 +537,220 @@ below details provided in github page,
 ![image](https://user-images.githubusercontent.com/80065996/150742952-c4ac7e92-81ed-4ac6-9272-e6d5732a10e4.png)
 
 
+# Now we have local copy of 'values.yaml' now. Good practise is not to alter that 'values.yaml' file. because after sometime if some updates happend to 
+# the chart, there will be change in contents of 'values.yaml'. so our changes done to 'values.yaml' in local copy will get overrided which downloading the 
+# copy of new version.
+# so always keep the separate file with values needed for overriding the main 'values.yaml' file. so that any change in the 'values.yaml' in the future will not 
+# get impacted.
+
+
+![image](https://user-images.githubusercontent.com/80065996/150750759-e1d2d49c-ab9f-4137-ac55-581e3da6bc65.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/150750910-b8a0f683-4bbe-4642-838c-3bab211cb82c.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/150750963-7c300488-cdfd-4b84-b8c0-e870fc63c6fe.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/150751279-51891338-d0c2-4b98-a193-6d9b4456d3c8.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/150751541-1ffe6d5d-4069-498b-b74a-a3d30b7807f8.png)
+
+
+# so we got separate new file for overriding purpose,
+# so when a chart is running already and you want to use this overriding file, we can apply that using below command,
+
+
+![image](https://user-images.githubusercontent.com/80065996/150752923-64413156-239d-4f40-93dc-16aad6f7b557.png)
+
+
+# dont fogot to use dot (.) operator at the last.
+# so the new override file will be applied. so even if you upgrade this chart in future, we will not distrub the orinal 'values.yaml' file and use this 
+# override file 'myvalues.yaml' to configure the charts.
+
+
+# Generating YAML using HELM.
+# why do we need to do this ? := one downside of using HELM is we always have HELM installed on top of our running cluster. Our kubernetes cluster, we will create
+# anyhow by scripting YAML files. But since we are using third party charts, we need to have HELM installed.
+# How to avoid this dependency ? := some projects will not use HELM to install charts, instead they will use HELM to generate YAML file so that we can use the 
+# YAML for our purpose.
+
+
+![image](https://user-images.githubusercontent.com/80065996/150754684-96bf0af2-7e88-4d2f-b90f-21d7b400c348.png)
+
+
+# command from above image generate YAML file from the local copy of chart we downloaded along with override we applied using 'myvalues.yaml'. ('monitoring' is the
+# release name we used to identify this.
+# but the problem is it will put the whole yaml in the screeen which is not good. we have to copy it and use it for our purpose.
+
+
+![image](https://user-images.githubusercontent.com/80065996/150756854-fa154d65-720b-4c3b-b90a-ded55c41424c.png)
+
+
+# so we use linux command feauture to copy the output to a separate YAML file (monitoring.yaml)
+
+
+![image](https://user-images.githubusercontent.com/80065996/150757944-a8001459-e5b7-414b-84a1-e74278f5b160.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/150758015-daedf96f-89a6-4e7d-bdab-63420d6084b4.png)
+
+
+# One advantage is this is just a normal YAML file we can use 'kubectl apply -f' command to install into the cluster.
+# one Drawback is 'monitoring.yaml' file we created has more than 15000 lines to work which is very tedious job.
+
+
+# creating GO templates for helm charts - (creating and using our own helm charts).
+
+
+![image](https://user-images.githubusercontent.com/80065996/150765872-c1705ead-489e-4413-80a5-23bd7fd456b6.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/150765990-94903da5-d458-411b-b2cb-2e440319c87c.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/150766124-37be7584-0dfe-45a4-bd7f-58ab5d7ccded.png)
+
+
+**Open the folder in atom,**
+
+
+![image](https://user-images.githubusercontent.com/80065996/150786981-db84ff26-630b-4ca0-ae65-3d00502ab61c.png)
+
+
+**below highlighted are default files created if we use 'helm create' command,**
+
+
+![image](https://user-images.githubusercontent.com/80065996/150787168-066df928-a21f-4f8e-a4f2-efbe587179f7.png)
+
+
+**so deleting the files,**
+
+# charts.YAML is the file which provides information about that chart. this is like READ.ME file in git
+
+
+![image](https://user-images.githubusercontent.com/80065996/150787480-661c90c8-4144-489a-8971-d26bc10f12f4.png)
+
+
+# under templates folder, create a file called 'one.yaml',
+
+
+![image](https://user-images.githubusercontent.com/80065996/150788576-c39d1ca0-d68e-4e0d-9b70-2b3feaeec51a.png)
+
+
+# Thats all, we have got a basic set up of our own helm chart,
+
+
+![image](https://user-images.githubusercontent.com/80065996/150790124-34d683d3-a9c0-470c-a23b-114542d2b352.png)
+
+
+
+# 'values.yaml' file contains default values for this chart.
+
+
+# below are default set up. we can run 'helm template .' command so that it will pass the content of yaml files inside the chart and check for errors,
+
+
+![image](https://user-images.githubusercontent.com/80065996/150791252-b7eb2f47-2d1c-4886-9037-3ef4fef88f2e.png)
+
+
+# deliberately doing the issue in YAML,
+
+
+![image](https://user-images.githubusercontent.com/80065996/150791418-23f9e3fe-b960-498e-a066-cc07501b042b.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/150791507-55e671b6-9987-4efb-86fd-0c111602558a.png)
+
+
+# it is successfully validating the YAML file for wrong values as well
+
+
+# WRITING GO TEMPLATES FOR HELM CHART
+
+
+![image](https://user-images.githubusercontent.com/80065996/150792876-59e5be30-938e-451b-a593-4a47058a2d72.png)
+
+
+# JUST introduced a 'printf' statement for golang,  and if you have 'helm template .' inside the chart folder, it will vaidate the yaml and execute it
+
+
+![image](https://user-images.githubusercontent.com/80065996/150793525-728d2332-0328-4128-b9b7-32d7a373743c.png)
+
+
+# trying again with some other value,
+
+
+![image](https://user-images.githubusercontent.com/80065996/150795883-8e39fbfc-3159-42d8-a3be-21e505243f2e.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/150795958-b52840e4-887d-416c-a671-4f7fb229384e.png)
+
+
+# lets be more realistic in creating example with GOLANG template which makes dynamic 
+
+
+![image](https://user-images.githubusercontent.com/80065996/150800748-022a945b-cdcc-4b7f-9f22-97c468dac848.png)
+
+
+**delete the unnecessary files, and create a new file and putting contents of fleetman-webapp deployment and services.**
+
+
+![image](https://user-images.githubusercontent.com/80065996/150801467-80012cf1-56d9-4812-ac64-d845021095cc.png)
+
+
+# now run the 'helm template .' command to check for any errors,
+
+
+![image](https://user-images.githubusercontent.com/80065996/150804584-a861f2cd-1923-4cee-a0ad-8af88a364752.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/150804647-11062571-d5bb-4fff-8fa7-69d808f0c5f3.png)
+
+
+# there are no errors YAML looks good
+
+**empty the values.Yaml file**
+
+
+![image](https://user-images.githubusercontent.com/80065996/150806280-658f9879-13f4-40aa-945f-09f9b2be6174.png)
+
+
+now we can make that fleetman webapp deployment yaml as very dynamic. let starts with replicas,
+
+# step:1
+**In 'values.yaml' mention the properties of replicas as shown below,**
+
+
+![image](https://user-images.githubusercontent.com/80065996/150807355-870eced5-acbf-4f4f-a8cc-bfff216a7e38.png)
+
+
+# step:2 
+# use the placeholder in values.yaml file and code it in deployment of fleetman webapp to replace the value of replicas as shown below
+
+
+![image](https://user-images.githubusercontent.com/80065996/150808341-25720957-02be-4db6-8f83-1ccb7906d640.png)
+
+
+# another way to do it
+
+
+![image](https://user-images.githubusercontent.com/80065996/150809754-0f8cba36-0d74-45cd-bab3-21c02d76d35d.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/150809883-13a5f08b-ca1a-41d6-9a13-e98c61d372ea.png)
+
+
+# check 'helm template' to check for any errors,
+
+
+![image](https://user-images.githubusercontent.com/80065996/150810159-bcb14bd8-1862-423f-a4fe-977380a6db23.png)
+
+
+# we can also use set command to do this
+
+![image](https://user-images.githubusercontent.com/80065996/150810777-59393b09-a1f4-40c2-b009-965e5e656516.png)
+
+
