@@ -754,3 +754,19 @@ now we can make that fleetman webapp deployment yaml as very dynamic. let starts
 ![image](https://user-images.githubusercontent.com/80065996/150810777-59393b09-a1f4-40c2-b009-965e5e656516.png)
 
 
+![image](https://user-images.githubusercontent.com/80065996/150821882-453525df-aa6a-4ee8-8ec4-63eaa5a677c8.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/150821963-8f049f6f-22b8-4f17-8b97-02c56ddb74a1.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/150822095-b473490f-aeee-46a3-b349-c569b1cb9eeb.png)
+
+
+Placeholder replaced successfully,
+
+
+![image](https://user-images.githubusercontent.com/80065996/150822211-840328e4-901b-4807-a216-461f30b29d1e.png)
+
+
+
