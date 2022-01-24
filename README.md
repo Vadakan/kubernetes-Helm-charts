@@ -458,5 +458,82 @@ below details provided in github page,
 # also. installing charts from third party vendors are dangerous and it will change frequently and we have to upgrade it.
 
 
+# So how can we modify the remote helm chart without installing into our cluster directly
+# pull the helm chart using 'helm pull' command
+
+
+![image](https://user-images.githubusercontent.com/80065996/150737937-cebc9d75-3e15-4972-8bae-cee218b54cef.png)
+
+
+# this command just downloads the chart and it does not touch my cluster.
+
+# using 'ls' command to check whether it is downloaded the chart correctly
+
+
+![image](https://user-images.githubusercontent.com/80065996/150738493-62e51319-cf7d-4a54-ad7f-59dfb969ff6f.png)
+
+
+# This command downloaded the zip file. We need to unzip it to get the YAML file for the stack. 
+# Helm pull command with some flag does the job to download the unzipped file for the chart
+
+
+![image](https://user-images.githubusercontent.com/80065996/150738934-a057aa76-db4a-40f1-a65e-57838105667c.png)
+
+
+# downloaded the unzipped version
+
+
+![image](https://user-images.githubusercontent.com/80065996/150739015-e31aa012-ecd0-4cd2-91f8-fc5b401d9d35.png)
+
+
+# go into the downloaded folder
+
+
+![image](https://user-images.githubusercontent.com/80065996/150739138-01727832-fdcc-487b-95b8-bca056175491.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/150739314-76826c82-e6cf-4003-9f97-0e0c15e2787f.png)
+
+
+# By downloading this chart, we are having a copy of the chart with us. so in future eventhough from the remote website, if this chart gets deleted
+# we can have copy of it and use it for our purpose.
+
+# similaryl download the other charts used in our cluster
+
+
+![image](https://user-images.githubusercontent.com/80065996/150741073-6737ec09-43be-4737-9495-307c738a40a9.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/150741115-ae47e86e-439a-4e86-b0b2-e4d054ebdd38.png)
+
+
+# now we have 2 charts downloaded and kept,
+
+
+![image](https://user-images.githubusercontent.com/80065996/150741364-2ccf65ab-1203-48e4-8df9-feaaa15622e3.png)
+
+
+# helm pull command format := helm pull repo-name/chart-name flags
+# repo-name ==> we added using 'helm repo' command
+# chartname ==> we take from artfifacthub
+# flags ==> there are many flags. we used 'untar flag' to download the unzipped version of the chart
+
+
+# now we have local copy of charts. We can use 'helm install' command to install the chart using local copy we have
+
+
+![image](https://user-images.githubusercontent.com/80065996/150742041-241f5b13-0153-4eb0-ab3c-357016ce19d2.png)
+
+
+# helm install command format := helm install [release-name]  [local-chart-folder-name]
+
+
+![image](https://user-images.githubusercontent.com/80065996/150742654-6888dcb1-b9ed-44f9-b87a-42fc30bf601c.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/150742911-dc0f63e2-b13e-4f04-b469-a2800d443f31.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/150742952-c4ac7e92-81ed-4ac6-9272-e6d5732a10e4.png)
 
 
