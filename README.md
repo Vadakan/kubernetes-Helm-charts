@@ -769,4 +769,467 @@ Placeholder replaced successfully,
 ![image](https://user-images.githubusercontent.com/80065996/150822211-840328e4-901b-4807-a216-461f30b29d1e.png)
 
 
+# Problem: Since we are using placeholders, we can even override that with wrong names. We have to avoid that problem.
+
+
+Changed some random alphabhets to uppercase in values.yaml file
+
+
+![image](https://user-images.githubusercontent.com/80065996/151315324-1b0ec8ce-742d-4b29-a93d-a7fc3e32511a.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/151315854-a4874e25-e57d-4970-bcb8-2dfbe8b51742.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/151315915-26a83a5e-32f0-4d2c-a728-fee4e36184ca.png)
+
+
+we can avoid this,
+
+# Solution : Helm functions and pipelines
+
+
+we can use a golang functions to make the name into complete lower case,
+
+
+![image](https://user-images.githubusercontent.com/80065996/151316239-b3235073-40c3-4cce-aea0-05ea3edd2622.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/151316307-1de8e005-4299-46e3-842d-82395be732e6.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/151316353-e76a30cd-caa4-48e3-b5e0-2330b88ba797.png)
+
+
+Lets try upper function too,
+
+
+![image](https://user-images.githubusercontent.com/80065996/151316484-6e70cb19-e23f-4f4c-88ab-886ab4543f23.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/151316554-1265ce3d-2796-4e42-9880-678cb0bbb7fe.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/151316630-064636f6-ce18-440e-a266-c434bfbc7758.png)
+
+
+# problem 2: what will happen if we dont have value of the placeholder not available in 'values.yaml'
+
+
+removing the placeholder from 'values.yaml'
+
+
+![image](https://user-images.githubusercontent.com/80065996/151318197-5b0075d6-3946-4e62-8c40-d66295203963.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/151318570-f16a8bac-2121-4705-af77-ce9b0d44260f.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/151318696-2a3aac9a-b389-438e-bd03-b69280f577e2.png)
+
+
+# 'helm template .' command throws error if we dont have values mentioned for corresponding placeholder in 'values.yaml'
+
+
+![image](https://user-images.githubusercontent.com/80065996/151319258-7e25061c-ca26-4408-aef6-36e15eb67f63.png)
+
+
+
+![image](https://user-images.githubusercontent.com/80065996/151319657-968883a9-8354-45ed-9939-5dbc63d48919.png)
+
+
+
+![image](https://user-images.githubusercontent.com/80065996/151319836-117b7a73-b5b9-47a9-9440-9bac171583c8.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/151319872-293e8015-3fe5-494d-8d9e-367b91df1509.png)
+
+
+# helm pipeline syntax: we can have output of one function to be passed to input of another function using 'pipe(|)' symbol
+
+
+![image](https://user-images.githubusercontent.com/80065996/151320588-a84e2de2-d346-454c-94b1-3f58054221d2.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/151320771-622d3a0f-1982-4785-a599-9e86a5b6ce08.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/151320852-3a647681-17f1-4e62-b6b8-4428afedf651.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/151320886-42ebd733-7498-447c-8d8c-be94cb14420c.png)
+
+
+# we can combine multiple values using pipeline
+
+
+![image](https://user-images.githubusercontent.com/80065996/151321269-35f41192-4f34-4ea4-a5e4-6065e8b7d196.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/151321463-c8594231-94da-4a23-8797-afc8292320e5.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/151321494-7ac1f41e-2e0b-4f6c-acc3-5687e27502ce.png)
+
+
+# separating production and development with a single line of change.
+
+# introduce a new field called 'environment' in 'values.yaml' file
+
+
+![image](https://user-images.githubusercontent.com/80065996/151323615-4101e4c0-ac4f-449b-8297-4a710945908a.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/151323715-6c0cdf74-2ded-45f2-8267-1337a12cf6fd.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/151323780-8cb9ee56-3089-4ec6-a667-a07e501a52b0.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/151323843-50417819-f192-447a-924c-899386b77d8b.png)
+
+
+another way to handle this,
+
+
+![image](https://user-images.githubusercontent.com/80065996/151333051-321c19b0-cd56-4bd3-aecc-6674958a09ec.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/151333258-7facf0cb-c3f1-43a6-8e3f-60fe4e7faa21.png)
+
+
+another different way to handle this,
+
+
+![image](https://user-images.githubusercontent.com/80065996/151333398-dc94bd63-1c06-4aed-a28f-e1e372fe3c34.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/151333690-559306e0-9468-469a-8093-c40b1a2e4087.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/151333773-8d293282-c03b-485b-a0bf-61f92d780b63.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/151333826-e0e6cb25-e422-486d-9e75-a969424eaa9d.png)
+
+
+# making it as values other than 'true'. put some random values
+
+
+![image](https://user-images.githubusercontent.com/80065996/151334802-b0164a21-fad3-44da-b698-131319d34f55.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/151334875-ea9132cf-4b39-4f79-b299-13b04cc215a7.png)
+
+
+# giving strings or anyother value apart from boolen throws incompatible type error.(since its golang code it will be strongly typed)
+
+
+# Another way to do it,
+
+
+![image](https://user-images.githubusercontent.com/80065996/151335597-80fa6076-ab2e-4f41-a898-1fa72a2f553d.png)
+
+
+# check for boolean
+
+
+![image](https://user-images.githubusercontent.com/80065996/151335850-eeff9165-97aa-46e8-852b-ac3703cc9ce5.png)
+
+
+# if else block
+
+
+![image](https://user-images.githubusercontent.com/80065996/151336145-5e4e8e45-af3d-4e0c-a5d5-40ceead47715.png)
+
+
+# 'true' scenario
+
+
+![image](https://user-images.githubusercontent.com/80065996/151336253-89e2de23-e9d4-4125-b42e-3075d8284c72.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/151336287-ce12f8a3-8e9f-4971-9f2c-b4cf1e49263b.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/151336334-6301d5d5-1d45-4641-b70a-14d9961188b9.png)
+
+
+# 'False' scenario
+
+
+![image](https://user-images.githubusercontent.com/80065996/151336402-46bdca76-2e61-4660-b79d-c4d90e484f4e.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/151336474-f8b63831-ca0c-40ae-8e58-8f8055a561da.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/151336531-7515f967-8f57-4951-8d02-611bb4c67fc3.png)
+
+
+# Named Templates - sub charts
+
+
+# problem: till now we have used 'values.yaml' to replace only a single value. What if we want to use a entire YAML file inside the another YAML (template
+# we are creating now for our use. we have to use different construct for that. that is called sub charts)
+
+
+# suppose below highlighted image we are supposed to use in many places in our YAML file.so this block of code will be repetitive. so for this case,
+# we can use named templates.
+
+# removed the particular block of code like shown below,
+
+
+![image](https://user-images.githubusercontent.com/80065996/151338196-eb0449be-3e39-4353-811b-525eb20e136f.png)
+
+
+# create a new file called 'common-block.yaml' under 'templates' folder,
+
+
+![image](https://user-images.githubusercontent.com/80065996/151338770-d2cffc0e-bd59-4bfe-857e-e8458ba4c31e.png)
+
+
+# what helm does is, it will take each and every yaml file under 'templates' section and check for syntax errors and does 'kubectl apply' command to it while
+# running the chart. we dont want to do with this 'named template' we are creating. Because this is the common block of code we want to replace the main YAML
+# and it has to called from main.YAML file similar to regular function call instead of applying it as separate entity.
+
+
+![image](https://user-images.githubusercontent.com/80065996/151339217-013a711d-3cff-440d-a63e-52d55946962b.png)
+
+
+# now if we do 'helm template .'  for checking the syntax, it consider this 'common-block.yaml' file as separate entity rather than calling it from main YAML file
+# and throws error as highlighted below
+
+
+![image](https://user-images.githubusercontent.com/80065996/151339557-c4a6c6b8-a78a-46fe-abec-543080c99845.png)
+
+
+# debug the template content using '--debug' flag as shown below,
+
+
+![image](https://user-images.githubusercontent.com/80065996/151339969-61ae3c9c-4b05-4336-b1a7-cedc65b1c77e.png)
+
+
+# if you see the debug trace it generated, helm is trying to consider this 'common-block.yaml' file as separate entity rather than replacing as function call
+# from main yaml file.
+
+
+![image](https://user-images.githubusercontent.com/80065996/151340439-bceba62b-fb80-46f5-8661-a5fbba84cdad.png)
+
+
+# USE UNDERSCORE SYMBOL ( _ ) TO TELL THE HELM COMPILER TO IGNORE THAT PARTICULAR YAML FILE FROM COMPILING, BUILDING AND ALSO TELLING HELM TO AVOID CHECK ERRORS
+
+# RENAME THE FILE NOW,
+
+
+![image](https://user-images.githubusercontent.com/80065996/151340970-4788e0b6-d7a4-4f86-b289-1432e3e9aaa9.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/151341034-af30b11c-afbb-4082-a28c-c927b224f41f.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/151341262-48cb9cbc-ca2f-4dd3-bc29-ad3a6de1be7e.png)
+
+
+# if you see now it didnt throw error, as it skipped compiling and build file starts with underscore
+
+
+![image](https://user-images.githubusercontent.com/80065996/151341426-a8a670a5-3710-498e-8018-e8be2eb6c11f.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/151341485-3370aabd-5592-41fb-8b56-e4543ffc9ae1.png)
+
+
+# ALSO TRY USING THE EXTENSION OF '.TPL' WHEN YOU ARE CREATING THIS KIND OF FILE.
+
+
+![image](https://user-images.githubusercontent.com/80065996/151341777-bea821bf-1b7c-4487-ab16-a0335a4b9794.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/151341974-d6fb6261-111d-440d-9976-c11f49ecad0f.png)
+
+
+# another step to make the helm to understand the particulat YAML file as template file.
+# we have use keyword 'define' to create a new function.
+
+
+![image](https://user-images.githubusercontent.com/80065996/151342941-f9a77f1c-7aad-46a0-9151-071e0faf2ce0.png)
+
+
+# like below syntax, we can connect the function defined in 'common-block.tpl' file with our main YAML file,
+
+
+![image](https://user-images.githubusercontent.com/80065996/151343426-c5fe263b-dc9f-43d9-a386-9502400af95a.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/151343510-d9d1f3f6-1815-46c9-bade-e1986b67b388.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/151343565-d57b71a7-5569-405f-bfb2-c5f7cdeee401.png)
+
+
+# we have successfully connected the 'common-block.tpl' file with our main YAML file as shown above
+# Another thing to notice here is even it executed the placeholder values we defined in 'values.yaml' file. 
+
+
+![image](https://user-images.githubusercontent.com/80065996/151343900-144eb5c8-c2c6-49ab-9fc8-1362d9adf4ef.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/151343944-7b672b45-0726-4cb7-93e1-d1786d746305.png)
+
+
+# we can even check that by replacing values of 'values.yaml' file by using command 
+
+
+![image](https://user-images.githubusercontent.com/80065996/151344197-7ba03146-5875-42b3-b5a2-89ea70011a02.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/151344286-f3ec3ceb-25e3-469f-b59f-f3ce858e5905.png)
+
+
+# it bring in the template as well as pipeline operations executed and also it fetches value from 'values.yaml' and it can even take values from command line
+# and replaces the values.yaml properties and sync it with our main YAML file
+
+# there is a blank line always got created when we use go action (double braces), because every go action executed and creates a blank line. To avoid that
+# we have to use hyphen(-) to remove the white space.
+
+
+![image](https://user-images.githubusercontent.com/80065996/151350231-e96ebc8f-e010-423c-b885-6330a70416e6.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/151350363-44e5d953-aadb-44f4-8021-1d8a6d437788.png)
+
+
+# now could see no new space created,
+
+
+![image](https://user-images.githubusercontent.com/80065996/151350434-c7623081-efd8-44ce-b100-c2b31f85136d.png)
+
+
+# problem : indendation in yaml. we should not hard code any spaces in the common-block.tpl kind of template files.
+
+# below highlighted kind of spaces we should not use in 'common-block.tpl' file because we are really not sure on which place of the main YAML file we are going 
+# to replace this common content. So we cannot really hardcode the indendation. there is another way to do it.
+
+# step 1: Remove the unwanted indendation and make the file to look like below,
+
+
+![image](https://user-images.githubusercontent.com/80065996/151353921-ad2d6367-2200-41a0-8db9-7d90dd7b818e.png)
+
+
+# step 2: problem : now if you test this with 'helm template .' command it will show error for indendation.
+
+
+![image](https://user-images.githubusercontent.com/80065996/151354230-56792182-fc00-4776-a8c1-599c13248cd1.png)
+
+
+# step 3: check the yaml using "--debug" flag. it is clearly showing the common-block.tpl content replaced the placeholder without any spaces and it throwed error
+
+
+![image](https://user-images.githubusercontent.com/80065996/151354552-eb54ed46-b411-412d-9a84-819ba1057b48.png)
+
+
+# step 4: Solution: Dont try to move the the placeholder left or write. we can mention the placeholder in any position. it does not matter. Even if we to any position
+# the content we are replacing with that placeholder will not get indended with any spaces.
+# demo: putting the placeholder in extreme right side
+
+
+![image](https://user-images.githubusercontent.com/80065996/151355141-dfc5faca-f6d9-4cd9-b230-39a4ac4afb06.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/151355235-d46423d2-47cb-40ab-abba-592c2d68aa18.png)
+
+
+# still the same result. indendation will not changed. checked using '--debug' flag
+
+
+# step 5: use below syntax to make indent of 6 spaces.
+
+
+![image](https://user-images.githubusercontent.com/80065996/151357561-8fd67d57-fcbb-4c12-9e09-f8b237fb6c56.png)
+
+
+# but still we could see error. This is where real differences comes into play for command 'templates' and equivalent command 'include'
+
+
+![image](https://user-images.githubusercontent.com/80065996/151358394-f5a7009a-377d-4535-9ca7-91418595bb86.png)
+
+
+# step 6 : solution: use 'include' command intead of 'template' command 
+# always use 'include' command in your template files(.tpl) files. even if you see 'template' command in any pre coded yaml files, replace it with 'include' command
+
+
+![image](https://user-images.githubusercontent.com/80065996/151358983-1b6dd646-5b27-4fa6-ac5d-232eb072433f.png)
+
+
+# now check the syntax,
+
+![image](https://user-images.githubusercontent.com/80065996/151359073-7853fa23-d9ef-41e0-b8a0-a0d885026c53.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/151359133-161d1205-4208-4e3a-82a6-134bbe6d2d13.png)
+
+
+# Take away : we should not use any spaces in template files (here- common-block.tpl) files. we have to always use 'include' instead of 'template'
+# use the syntax of 'indent' with 6 spaces always to make the 'named template' fit correctly with main yaml file
+
+
+# Analysig the existings professional helm charts
+
+
+![image](https://user-images.githubusercontent.com/80065996/151362706-01771141-52aa-4953-a0de-a1dd2fb27d11.png)
+
+
+# we have installed the helm chart we have created. 
+
+
+![image](https://user-images.githubusercontent.com/80065996/151363126-48e4d29a-adda-4487-a676-014284397b7d.png)
+
+
+# changed the replicas and upgrade the helm 
+
+
+![image](https://user-images.githubusercontent.com/80065996/151363656-6288195e-6739-43dd-986a-6c1eaef13149.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/151363922-992a7e81-29d1-4ee1-b353-eefe4bfec79e.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/151363970-a9130c5a-a1fb-4a12-afc4-2a33063febcf.png)
+
+
+#  till now we installed TEST version. now you can see with single command i am going to switch to PROD
+
+
+![image](https://user-images.githubusercontent.com/80065996/151364461-549b2590-fa4f-4336-ae59-869338039ec8.png)
+
+
+# since i changed 'set flag development=false from true' it now switch the chart to production version from TEST version
+
+
+![image](https://user-images.githubusercontent.com/80065996/151364595-0a054e69-a3b2-4223-9484-b70367a9d0bf.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/151372136-6373164e-3f46-4004-90d6-c776b382bea6.png)
+
+
+# here you could see name of helm release is not prefixed with any of the pods,deployments,services,replica sets. so in case of bigger clusters, this
+# will create confusion. so we need to code separately for this to happen,
+
+
+![image](https://user-images.githubusercontent.com/80065996/151375509-8d81f72d-4d3b-41a1-ab0f-b442eb9b6e20.png)
+
+
+# we have mentioned separatley the name of deployment,services with placeholder below,
+
+
+![image](https://user-images.githubusercontent.com/80065996/151376211-dcdafc50-37c1-4e4a-9318-35f4171c2ff8.png)
+
+
+![image](https://user-images.githubusercontent.com/80065996/151376379-2947ad05-2b79-4e20-b0ab-f62e51aa048d.png)
+
+
+# now as per our changes release name is appearing on every kubernetes object
+
+
 
