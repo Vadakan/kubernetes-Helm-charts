@@ -1232,4 +1232,9 @@ another different way to handle this,
 # now as per our changes release name is appearing on every kubernetes object
 
 
+# Note: We can install same chart twice using different release name with two install command with same code we have developed.
+
+
+![image](https://user-images.githubusercontent.com/80065996/151377939-cf23bbdc-adcb-4380-b90c-9773ca3fb5d3.png)
+
 
